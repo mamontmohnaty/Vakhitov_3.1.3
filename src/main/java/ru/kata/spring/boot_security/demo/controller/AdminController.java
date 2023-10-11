@@ -39,6 +39,7 @@ public class AdminController {
         userService.saveUser(admin);
     }
 
+
     @GetMapping(value = "/")
     String getAllUsers(Model model, Principal principal) {
         List<User> users = userService.findAll();
@@ -46,12 +47,6 @@ public class AdminController {
         model.addAttribute("user", userService.findUserByName(principal.getName()));
         return "users";
     }
-
-//    @GetMapping(value = "/add")
-//    String showAddUser(Model model) {
-//        model.addAttribute("user", new User());
-//        return "add";
-//    }
 
     @PostMapping(value = "/add")
     String saveUser(@RequestParam(value = "rolesId") String[] roles,
@@ -65,18 +60,9 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-//    @GetMapping("/edit/{id}")
-//    public String updateUserForm(Model model, @PathVariable("id") Long id) {
-//        model.addAttribute("user", userService.findById(id));
-//        return "edit";
-//    }
-
     @PatchMapping("/{id}")
     public String update(@RequestParam(value = "editRoles") String[] roles,
                          @ModelAttribute("user") User user) {
-//        if (bindingResult.hasErrors()) {
-//            return "/edit";
-//        }
         user.setRoles(roleService.getSetRoles(roles));
         userService.updateUser(user);
         return "redirect:/admin/";
